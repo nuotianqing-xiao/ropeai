@@ -37,7 +37,8 @@ export default async function handler(req, res) {
       !process.env.COZE_APP_ID ||
       !process.env.COZE_KEY_ID ||
       !process.env.COZE_AUD ||
-      !privateKey
+      !privateKey ||
+      !botId
     ) {
       return res.status(500).json({
         error: 'Missing Coze OAuth environment variables',
@@ -51,7 +52,18 @@ export default async function handler(req, res) {
 
     const scope = {
       account_permission: {
-        permission_list: ['Connector.botChat']
+        permission_list: [
+          'Connector.botChat',
+          'Connector.getMetadata',
+          'Connector.listConversation',
+          'Connector.createConversation',
+          'Connector.editConversation',
+          'Connector.uploadFile',
+          'Connector.listConversationMessage',
+          'Connector.cancelConversationChat',
+          'Connector.createTranscription',
+          'Connector.createSpeech'
+        ]
       },
       attribute_constraint: {
         connector_bot_chat_attribute: {
