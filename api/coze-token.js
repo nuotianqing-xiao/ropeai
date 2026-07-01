@@ -27,7 +27,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const privateKey = process.env.COZE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    const privateKey = process.env.COZE_PRIVATE_KEY
+      ? process.env.COZE_PRIVATE_KEY.replace(/\\n/g, '\n')
+      : '';
+
     const botId = process.env.COZE_BOT_ID || '7589573248099303467';
 
     if (
@@ -37,7 +40,12 @@ export default async function handler(req, res) {
       !privateKey
     ) {
       return res.status(500).json({
-        error: 'Missing Coze OAuth environment variables'
+        error: 'Missing Coze OAuth environment variables',
+        has_app_id: Boolean(process.env.COZE_APP_ID),
+        has_key_id: Boolean(process.env.COZE_KEY_ID),
+        has_aud: Boolean(process.env.COZE_AUD),
+        has_private_key: Boolean(privateKey),
+        has_bot_id: Boolean(botId)
       });
     }
 
@@ -70,10 +78,11 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       error: 'Failed to get Coze token',
-      name: error?.name,
-      message: error?.message,
-      status: error?.status,
-      code: error?.code,
-      logid: error?.logid
+      message: error && error.message ? error.message : String(error),
+      name: error && error.name ? error.name : null,
+      status: error && error.status ? error.status : null,
+      code: error && error.code ? error.code : null,
+      logid: error && error.logid ? error.logid : null
     });
   }
+}
