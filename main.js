@@ -1,7 +1,7 @@
 const BOT_ID = '7589573248099303467';
 
 // 这里先写占位，等 Vercel 部署完成后再改成真实地址
-const BACKEND_URL = 'https://你的-vercel-项目名.vercel.app';
+const BACKEND_URL = 'https://ropeai-assistant.vercel.app';
 
 function getOrCreateUserId() {
   let userId = localStorage.getItem('rope_ai_user_id');
