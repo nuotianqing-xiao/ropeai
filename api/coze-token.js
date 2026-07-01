@@ -66,10 +66,14 @@ export default async function handler(req, res) {
       expires_in: jwtToken.expires_in
     });
   } catch (error) {
-    console.error('Coze token error:', error);
+    console.error('Coze token error full:', error);
 
     return res.status(500).json({
-      error: 'Failed to get Coze token'
+      error: 'Failed to get Coze token',
+      name: error?.name,
+      message: error?.message,
+      status: error?.status,
+      code: error?.code,
+      logid: error?.logid
     });
   }
-}
