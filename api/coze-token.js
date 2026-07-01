@@ -28,6 +28,7 @@ export default async function handler(req, res) {
 
   try {
     const privateKey = process.env.COZE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    const botId = process.env.COZE_BOT_ID || '7589573248099303467';
 
     if (
       !process.env.COZE_APP_ID ||
@@ -40,12 +41,24 @@ export default async function handler(req, res) {
       });
     }
 
+    const scope = {
+      account_permission: {
+        permission_list: ['Connector.botChat']
+      },
+      attribute_constraint: {
+        connector_bot_chat_attribute: {
+          bot_id_list: [botId]
+        }
+      }
+    };
+
     const jwtToken = await getJWTToken({
       baseURL: process.env.COZE_API_BASE || 'https://api.coze.cn',
       appId: process.env.COZE_APP_ID,
       keyid: process.env.COZE_KEY_ID,
       aud: process.env.COZE_AUD,
-      privateKey
+      privateKey,
+      scope
     });
 
     return res.status(200).json({
