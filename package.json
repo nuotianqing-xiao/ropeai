@@ -1,0 +1,9 @@
+{
+  "name": "rope-ai-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@coze/api": "^1.3.9"
+  }
+}
